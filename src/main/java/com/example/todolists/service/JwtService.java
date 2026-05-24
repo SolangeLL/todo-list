@@ -1,74 +1,70 @@
 package com.example.todolists.service;
 
+import com.auth0.jwk.Jwk;
+import com.auth0.jwk.JwkProvider;
+import com.auth0.jwk.UrlJwkProvider;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
+
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
-
-import org.springframework.beans.factory.annotation.Value;
-
-import java.nio.charset.StandardCharsets;
-import java.security.Key;
-import java.util.Base64;
+import java.security.interfaces.ECPublicKey;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.function.Function;
+import java.util.Map;
 
 @Service
 public class JwtService {
 
-    @Value("${supabase.jwt.secret}")
-    private String jwtSecret;
+    @Value("${supabase.url}/auth/v1")
+    private String supabaseUrl;
+
+    private JwkProvider jwkProvider;
 
     @PostConstruct
     public void init() {
-        System.out.println("JwtService initialized with secret: " + (jwtSecret != null ? "LOADED" : "NULL"));
-        System.out.println("JWT Secret value: " + jwtSecret);
+        jwkProvider = new UrlJwkProvider(supabaseUrl);
+        System.out.println("JwtService initialized with supabaseUrl: " + supabaseUrl);
     }
 
-
-    public String extractName(String token){
-        return extractClaim(token, claims -> {
-            HashMap<?, ?> userMetadata = claims.get("user_metadata", HashMap.class);
-            if (userMetadata != null) {
-                return userMetadata.get("name").toString();
-            }
-            return null;
-        });
+    private DecodedJWT decodeAndVerify(String token) {
+        try {
+            DecodedJWT jwt = JWT.decode(token);
+            Jwk jwk = jwkProvider.get(jwt.getKeyId());
+            ECPublicKey publicKey = (ECPublicKey) jwk.getPublicKey();
+            Algorithm algorithm = Algorithm.ECDSA256(publicKey, null);
+            return JWT.require(algorithm).acceptLeeway(60).build().verify(token);
+        } catch (Exception e) {
+            throw new RuntimeException("Token invalide : " + e.getMessage());
+        }
     }
 
-    public String extractRole(String token){
-        return extractClaim(token, claims -> {
-            HashMap<?, ?> userMetadata = claims.get("user_metadata", HashMap.class);
-            if (userMetadata != null) {
-                return userMetadata.get("role").toString();
-            }
-            return null;
-        });
+    public String extractName(String token) {
+        DecodedJWT jwt = decodeAndVerify(token);
+        Map<String, Object> userMetadata = jwt.getClaim("user_metadata").asMap();
+        if (userMetadata != null) {
+            return userMetadata.get("name").toString();
+        }
+        return null;
     }
 
-    public String extractPersonId(String token) {
-        return extractClaim(token, Claims::getSubject);
+    public String extractRole(String token) {
+        DecodedJWT jwt = decodeAndVerify(token);
+        Map<String, Object> userMetadata = jwt.getClaim("user_metadata").asMap();
+        if (userMetadata != null) {
+            return userMetadata.get("role").toString();
+        }
+        return null;
+    }
+
+    public String extractUserId(String token) {
+        return decodeAndVerify(token).getSubject();
     }
 
     public Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
-    }
-
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
-    }
-
-    private Claims extractAllClaims(String token) {
-        return Jwts.parser()
-//                .verifyWith((javax.crypto.SecretKey) getSignKey())
-                .setSigningKey(getSignKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
+        return Date.from(decodeAndVerify(token).getExpiresAtAsInstant());
     }
 
     private Boolean isTokenExpired(String token) {
@@ -82,12 +78,5 @@ public class JwtService {
             e.printStackTrace();
             return false;
         }
-    }
-
-    private Key getSignKey() {
-//        byte[] keyBytes = jwtSecret.getBytes(StandardCharsets.UTF_8);
-//        return Keys.hmacShaKeyFor(keyBytes);
-        byte[] keyBytes = jwtSecret.getBytes();
-        return Keys.hmacShaKeyFor(keyBytes);
     }
 }

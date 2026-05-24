@@ -33,14 +33,14 @@ public class AuthController {
 
             if (jwtService.validateToken(token)) {
                 String role = jwtService.extractRole(token);
-                String personId = jwtService.extractPersonId(token);
-                String personName = jwtService.extractName(token);
+                String userId = jwtService.extractUserId(token);
+                String userName = jwtService.extractName(token);
 
                 Map<String, Object> response = new HashMap<>();
                 response.put("valid", true);
                 response.put("role", role);
-                response.put("personId", personId);
-                response.put("personName", personName);
+                response.put("userId", userId);
+                response.put("userName", userName);
 
                 return ResponseEntity.ok(response);
             } else {
