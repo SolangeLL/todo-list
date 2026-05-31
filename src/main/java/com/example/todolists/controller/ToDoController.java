@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,32 +22,38 @@ class ToDoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ToDoModel>> findAllTodos() {
-        return ResponseEntity.ok(toDoService.findAll());
+    public List<ToDoModel> findAllTodos() {
+        return toDoService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ToDoModel> findToDoById(@PathVariable("id") UUID id) {
-        return ResponseEntity.ok(toDoService.findToDoById(id));
+    public ToDoModel findToDoById(@PathVariable UUID id) {
+        return toDoService.findById(id);
+    }
+
+    @GetMapping("user/{userId}")
+    public List<ToDoModel> findTodoByUserId(@PathVariable UUID userId) {
+        return toDoService.findByUserId(userId);
     }
 
     @PostMapping
     public ResponseEntity<ToDoModel> createToDo(@RequestBody @Valid CreateToDoDto dto) {
-        return ResponseEntity.ok(toDoService.createToDo(dto));
+        ToDoModel toDo = toDoService.createToDo(dto);
+        URI location = URI.create("/todos/" + toDo.getId());
+        return ResponseEntity.created(location).body(toDo);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ToDoModel> updateToDo(@RequestBody @Valid UpdateToDoDto dto) {
-        return ResponseEntity.ok(toDoService.updateToDo(dto));
+    public ToDoModel updateToDo(
+            @PathVariable UUID id,
+            @RequestBody @Valid UpdateToDoDto dto
+    ) {
+        return toDoService.updateToDo(id, dto);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteToDo() {
-
-    }
-
-    @GetMapping("user/{userid}")
-    public List<ToDoModel> findTodoByUserId(@PathVariable("userid") UUID userId) {
-        return toDoService.findByUserId(userId);
+    public ResponseEntity<Void> deleteToDo(@PathVariable UUID id) {
+        toDoService.deleteToDo(id);
+        return ResponseEntity.noContent().build();
     }
 }

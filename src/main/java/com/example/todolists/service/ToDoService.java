@@ -22,7 +22,7 @@ public class ToDoService {
         return toDoRepository.findAll();
     }
 
-    public ToDoModel findToDoById(UUID id) {
+    public ToDoModel findById(UUID id) {
         return toDoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("ToDo (id: " + id + ") not found"));
     }
 
@@ -35,8 +35,8 @@ public class ToDoService {
         return toDoRepository.save(model);
     }
 
-    public ToDoModel updateToDo(UpdateToDoDto dto) {
-        ToDoModel updatedToDo = findToDoById(dto.getId());
+    public ToDoModel updateToDo(UUID id, UpdateToDoDto dto) {
+        ToDoModel updatedToDo = findById(id);
         dto.getTitle().ifPresent(updatedToDo::setTitle);
         dto.getDescription().ifPresent(updatedToDo::setDescription);
         dto.getDueTime().ifPresent(updatedToDo::setDueTime);
@@ -46,5 +46,10 @@ public class ToDoService {
 
     public List<ToDoModel> findByUserId(UUID userId) {
         return toDoRepository.findByUserId(userId);
+    }
+
+    public void deleteToDo(UUID id) {
+        findById(id);
+        toDoRepository.deleteById(id);
     }
 }
