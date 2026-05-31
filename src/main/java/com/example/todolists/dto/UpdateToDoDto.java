@@ -13,9 +13,9 @@ public class UpdateToDoDto {
     private Optional<String> description = Optional.empty();
 
     @DateTimeFormat
-    private Optional<Date> dueTime;
+    private Optional<Date> dueTime = Optional.empty();
 
-    private Optional<ToDoStatus> status;
+    private Optional<ToDoStatus> status = Optional.empty();
 
     public Optional<String> getTitle() {
         return title;
