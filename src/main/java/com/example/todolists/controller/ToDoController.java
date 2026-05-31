@@ -31,10 +31,16 @@ class ToDoController {
         return toDoService.findById(id);
     }
 
-    @GetMapping("user/{userId}")
+    @GetMapping("/user/{userId}")
     public List<ToDoModel> findTodoByUserId(@PathVariable UUID userId) {
         return toDoService.findByUserId(userId);
     }
+
+    @GetMapping("/user")
+    public List<ToDoModel> findToDoByCurrentUserId() {
+        return toDoService.findByCurrentUserId();
+    }
+
 
     @PostMapping
     public ResponseEntity<ToDoModel> createToDo(@RequestBody @Valid CreateToDoDto dto) {

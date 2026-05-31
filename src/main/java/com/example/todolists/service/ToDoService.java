@@ -50,6 +50,11 @@ public class ToDoService {
         return toDoRepository.findByUserId(userId);
     }
 
+    public List<ToDoModel> findByCurrentUserId() {
+        AuthUtils auth = new AuthUtils();
+        return toDoRepository.findByUserId(auth.getCurrentUserId());
+    }
+
     public void deleteToDo(UUID id) {
         findById(id);
         toDoRepository.deleteById(id);
