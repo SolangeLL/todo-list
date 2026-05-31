@@ -6,6 +6,7 @@ import com.example.todolists.dto.UpdateToDoDto;
 import com.example.todolists.exception.ResourceNotFoundException;
 import com.example.todolists.model.ToDoModel;
 import com.example.todolists.repository.ToDoRepository;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,7 +57,11 @@ public class ToDoService {
     }
 
     public void deleteToDo(UUID id) {
-        findById(id);
+        AuthUtils auth = new AuthUtils();
+        ToDoModel toDo = findById(id);
+        boolean isSameUserId = auth.getCurrentUserId().equals(toDo.getUserId());
+        if (!isSameUserId)
+            throw new AuthorizationDeniedException("You don't have the rights to delete this Todo (id: " + id + ")");
         toDoRepository.deleteById(id);
     }
 }
