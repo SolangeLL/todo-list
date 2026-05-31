@@ -14,7 +14,7 @@ public class ToDoModel {
     private UUID id;
 
     @Column(name="created_at")
-    private Date createdAt;
+    private Date createdAt = new Date();
 
     @Column(name="title")
     private String title;
@@ -30,6 +30,14 @@ public class ToDoModel {
 
     @Column(name="user_id")
     private UUID userId;
+
+    public ToDoModel(UUID userId) {
+        this.userId = userId;
+    }
+
+    public ToDoModel() {
+
+    }
 
     public UUID getId() {
         return id;

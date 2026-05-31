@@ -1,5 +1,6 @@
 package com.example.todolists.service;
 
+import com.example.todolists.component.AuthUtils;
 import com.example.todolists.dto.CreateToDoDto;
 import com.example.todolists.dto.UpdateToDoDto;
 import com.example.todolists.exception.ResourceNotFoundException;
@@ -27,7 +28,8 @@ public class ToDoService {
     }
 
     public ToDoModel createToDo(CreateToDoDto dto) {
-        ToDoModel model = new ToDoModel();
+        AuthUtils auth = new AuthUtils();
+        ToDoModel model = new ToDoModel(auth.getCurrentUserId());
         model.setTitle(dto.getTitle());
         model.setDescription(dto.getDescription());
         model.setStatus(dto.getStatus().toString());

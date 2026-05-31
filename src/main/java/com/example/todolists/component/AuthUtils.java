@@ -4,10 +4,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.UUID;
 
 @Component
 public class AuthUtils {
-
     public Map<String, String> getCurrentUser() {
         return (Map<String, String>) SecurityContextHolder
                 .getContext()
@@ -15,8 +15,9 @@ public class AuthUtils {
                 .getPrincipal();
     }
 
-    public String getCurrentUserId() {
-        return getCurrentUser().get("userId");
+    public UUID getCurrentUserId() {
+        String idStr = getCurrentUser().get("userId");
+        return UUID.fromString(idStr);
     }
 
     public String getCurrentUserRole() {

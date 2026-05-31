@@ -2,10 +2,10 @@ package com.example.todolists.dto;
 
 import com.example.todolists.ToDoStatus;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
-import java.util.UUID;
 
 public class CreateToDoDto {
     @NotBlank(message = "Le titre est requis")
@@ -14,15 +14,11 @@ public class CreateToDoDto {
     @NotBlank(message = "Le description est requis")
     private String description;
 
-    @NotBlank(message = "La date butoire est requise")
+    @NotNull(message = "La date butoire est requise")
     @DateTimeFormat
     private Date dueTime;
 
-    @NotBlank(message = "L'user_id est requis")
-    private UUID userId;
-
-    @NotBlank(message = "Le status est requis")
-    private ToDoStatus status;
+    private ToDoStatus status = ToDoStatus.TODO;
 
     public String getTitle() {
         return title;
@@ -46,14 +42,6 @@ public class CreateToDoDto {
 
     public void setDueTime(Date dueTime) {
         this.dueTime = dueTime;
-    }
-
-    public UUID getUserId() {
-        return userId;
-    }
-
-    public void setUserId(UUID userId) {
-        this.userId = userId;
     }
 
     public ToDoStatus getStatus() {
