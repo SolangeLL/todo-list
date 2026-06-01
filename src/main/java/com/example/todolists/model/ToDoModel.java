@@ -1,10 +1,14 @@
 package com.example.todolists.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 import java.util.Date;
 import java.util.UUID;
 
+@Builder
+@AllArgsConstructor
 @Entity
 @Table(name = "todo")
 public class ToDoModel {
@@ -13,6 +17,7 @@ public class ToDoModel {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Builder.Default
     @Column(name="created_at")
     private Date createdAt = new Date();
 
