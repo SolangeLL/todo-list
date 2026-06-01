@@ -36,6 +36,7 @@ public class ToDoModel {
     @Column(name="status")
     private String status;
 
+    @Setter
     @Column(name="due_time")
     private Date dueTime;
 

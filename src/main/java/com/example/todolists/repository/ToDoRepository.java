@@ -4,8 +4,9 @@ import com.example.todolists.model.ToDoModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface ToDoRepository extends JpaRepository<ToDoModel, UUID> {
-    List<ToDoModel> findByUserId(UUID userid);
+    Optional<List<ToDoModel>> findByUserId(UUID userid);
 }

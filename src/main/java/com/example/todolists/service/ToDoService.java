@@ -48,12 +48,17 @@ public class ToDoService {
     }
 
     public List<ToDoModel> findByUserId(UUID userId) {
-        return toDoRepository.findByUserId(userId);
+        return toDoRepository.findByUserId(userId).orElseThrow(
+                () -> new ResourceNotFoundException("ToDo (userId: " + userId + ") not found")
+        );
     }
 
     public List<ToDoModel> findByCurrentUserId() {
         AuthUtils auth = new AuthUtils();
-        return toDoRepository.findByUserId(auth.getCurrentUserId());
+        UUID currentUserId = auth.getCurrentUserId();
+        return toDoRepository.findByUserId(currentUserId).orElseThrow(
+                () -> new ResourceNotFoundException("ToDo (userId: " + currentUserId + ") not found")
+        );
     }
 
     public void deleteToDo(UUID id) {
