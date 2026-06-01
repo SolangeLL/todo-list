@@ -3,10 +3,13 @@ package com.example.todolists.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 import java.util.UUID;
 
+@Getter
 @Builder
 @AllArgsConstructor
 @Entity
@@ -21,12 +24,15 @@ public class ToDoModel {
     @Column(name="created_at")
     private Date createdAt = new Date();
 
+    @Setter
     @Column(name="title")
     private String title;
 
+    @Setter
     @Column(name="description")
     private String description;
 
+    @Setter
     @Column(name="status")
     private String status;
 
@@ -42,50 +48,6 @@ public class ToDoModel {
 
     public ToDoModel() {
 
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setTitle(String newTitle) {
-        this.title = newTitle;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setDescription(String newDescription) {
-        this.description = newDescription;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setStatus(String newStatus) {
-        this.status = newStatus;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setDueTime(Date newDueTime) {
-        this.dueTime = newDueTime;
-    }
-
-    public Date getDueTime() {
-        return dueTime;
-    }
-
-    public UUID getUserId() {
-        return userId;
     }
 
     @Override
