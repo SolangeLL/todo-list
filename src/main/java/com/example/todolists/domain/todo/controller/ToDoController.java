@@ -1,6 +1,7 @@
 package com.example.todolists.domain.todo.controller;
 
 import com.example.todolists.domain.todo.dto.CreateToDoDto;
+import com.example.todolists.domain.todo.dto.ToDoResponse;
 import com.example.todolists.domain.todo.dto.UpdateToDoDto;
 import com.example.todolists.domain.todo.entity.ToDo;
 import com.example.todolists.domain.todo.service.ToDoService;
@@ -22,35 +23,35 @@ class ToDoController {
     }
 
     @GetMapping
-    public List<ToDo> findAllTodos() {
+    public List<ToDoResponse> findAllTodos() {
         return toDoService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ToDo findToDoById(@PathVariable UUID id) {
+    public ToDoResponse findToDoById(@PathVariable UUID id) {
         return toDoService.findById(id);
     }
 
     @GetMapping("/user/{userId}")
-    public List<ToDo> findTodoByUserId(@PathVariable UUID userId) {
+    public List<ToDoResponse> findTodoByUserId(@PathVariable UUID userId) {
         return toDoService.findByUserId(userId);
     }
 
     @GetMapping("/user")
-    public List<ToDo> findToDoByCurrentUserId() {
+    public List<ToDoResponse> findToDoByCurrentUserId() {
         return toDoService.findByCurrentUserId();
     }
 
 
     @PostMapping
-    public ResponseEntity<ToDo> createToDo(@RequestBody @Valid CreateToDoDto dto) {
-        ToDo toDo = toDoService.createToDo(dto);
+    public ResponseEntity<ToDoResponse> createToDo(@RequestBody @Valid CreateToDoDto dto) {
+        ToDoResponse toDo = toDoService.createToDo(dto);
         URI location = URI.create("/todos/" + toDo.getId());
         return ResponseEntity.created(location).body(toDo);
     }
 
     @PatchMapping("/{id}")
-    public ToDo updateToDo(
+    public ToDoResponse updateToDo(
             @PathVariable UUID id,
             @RequestBody @Valid UpdateToDoDto dto
     ) {

@@ -1,5 +1,6 @@
 package com.example.todolists.domain.todo.entity;
 
+import com.example.todolists.domain.todo.dto.ToDoResponse;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -49,6 +50,18 @@ public class ToDo {
 
     public ToDo() {
 
+    }
+
+    public static ToDo fromToDoResponse(ToDoResponse toDoResponse) {
+        return ToDo.builder()
+                .id(toDoResponse.getId())
+                .userId(toDoResponse.getUserId())
+                .title(toDoResponse.getTitle())
+                .description(toDoResponse.getDescription())
+                .dueTime(toDoResponse.getDueTime())
+                .status(toDoResponse.getStatus())
+                .createdAt(toDoResponse.getCreatedAt())
+                .build();
     }
 
     @Override
