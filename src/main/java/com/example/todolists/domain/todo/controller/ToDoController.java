@@ -3,7 +3,6 @@ package com.example.todolists.domain.todo.controller;
 import com.example.todolists.domain.todo.dto.CreateToDoDto;
 import com.example.todolists.domain.todo.dto.ToDoResponse;
 import com.example.todolists.domain.todo.dto.UpdateToDoDto;
-import com.example.todolists.domain.todo.entity.ToDo;
 import com.example.todolists.domain.todo.service.ToDoService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

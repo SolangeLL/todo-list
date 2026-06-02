@@ -1,11 +1,17 @@
 package com.example.todolists.domain.todo.dto;
 
 import com.example.todolists.domain.common.ToDoStatus;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.Optional;
 
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UpdateToDoDto {
     private Optional<String> title = Optional.empty();
 
@@ -16,19 +22,4 @@ public class UpdateToDoDto {
 
     private Optional<ToDoStatus> status = Optional.empty();
 
-    public Optional<String> getTitle() {
-        return title;
-    }
-
-    public Optional<String> getDescription() {
-        return description;
-    }
-
-    public Optional<Date> getDueTime() {
-        return dueTime;
-    }
-
-    public Optional<ToDoStatus> getStatus() {
-        return status;
-    }
 }

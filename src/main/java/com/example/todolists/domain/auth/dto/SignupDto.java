@@ -2,50 +2,22 @@ package com.example.todolists.domain.auth.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class SignupDto {
-    @NotBlank(message = "L'email est requis")
-    @Email(message = "Email invalide")
+    @NotBlank(message = "The email is required")
+    @Email(message = "Invalid email")
     private String email;
 
-    @NotBlank(message = "Le mot de passe est requis")
+    @NotBlank(message = "The password is required")
     private String password;
 
-    @NotBlank(message = "Le nom est requis")
+    @NotBlank(message = "The name is required")
     private String name;
 
-    @NotBlank(message = "Le rôle est requis")
+    @NotBlank(message = "The role is required")
     private String role;
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 }
