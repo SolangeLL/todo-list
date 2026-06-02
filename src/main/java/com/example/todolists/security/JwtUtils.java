@@ -35,7 +35,7 @@ public class JwtUtils {
             Jwk jwk = jwkProvider.get(jwt.getKeyId());
             ECPublicKey publicKey = (ECPublicKey) jwk.getPublicKey();
             Algorithm algorithm = Algorithm.ECDSA256(publicKey, null);
-            return JWT.require(algorithm).acceptLeeway(60).build().verify(token);
+            return JWT.require(algorithm).build().verify(token);
         } catch (Exception e) {
             throw new RuntimeException("Token invalide : " + e.getMessage());
         }

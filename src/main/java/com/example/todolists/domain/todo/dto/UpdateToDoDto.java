@@ -21,5 +21,4 @@ public class UpdateToDoDto {
     private Optional<Date> dueTime = Optional.empty();
 
     private Optional<ToDoStatus> status = Optional.empty();
-
 }

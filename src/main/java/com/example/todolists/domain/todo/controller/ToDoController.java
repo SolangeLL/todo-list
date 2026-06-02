@@ -59,7 +59,7 @@ class ToDoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteToDo(@PathVariable UUID id) {
-        toDoService.deleteToDo(id);
+        toDoService.deleteToDoById(id);
         return ResponseEntity.noContent().build();
     }
 }
