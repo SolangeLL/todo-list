@@ -1,8 +1,8 @@
 package com.example.todolists.configuration;
 
-import com.example.todolists.component.JwtAccessDeniedHandler;
-import com.example.todolists.component.JwtAuthEntryPoint;
-import com.example.todolists.component.JwtAuthenticationFilter;
+import com.example.todolists.security.JwtAccessDeniedHandler;
+import com.example.todolists.security.JwtAuthEntryPoint;
+import com.example.todolists.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;

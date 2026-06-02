@@ -1,8 +1,7 @@
-package com.example.todolists.service;
+package com.example.todolists.domain.auth.service;
 
-import com.example.todolists.dto.SignInDto;
-import com.example.todolists.dto.SignupDto;
-import org.apache.coyote.Response;
+import com.example.todolists.domain.auth.dto.SignInDto;
+import com.example.todolists.domain.auth.dto.SignupDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;

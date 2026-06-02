@@ -1,6 +1,5 @@
-package com.example.todolists.component;
+package com.example.todolists.security;
 
-import com.example.todolists.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,10 +19,10 @@ import java.util.Map;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private final JwtService jwtService;
+    private final JwtUtils jwtUtils;
 
-    public JwtAuthenticationFilter(JwtService jwtService) {
-        this.jwtService = jwtService;
+    public JwtAuthenticationFilter(JwtUtils jwtUtils) {
+        this.jwtUtils = jwtUtils;
     }
 
     private Map<String, String> extractDataFromAuthorizationHeader(String authorizationHeader) {
@@ -32,9 +31,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String token = authorizationHeader.substring(7);
             data.put("token", token);
-            data.put("userRole", jwtService.extractRole(token));
-            data.put("userId", jwtService.extractUserId(token));
-            data.put("userName", jwtService.extractName(token));
+            data.put("userRole", jwtUtils.extractRole(token));
+            data.put("userId", jwtUtils.extractUserId(token));
+            data.put("userName", jwtUtils.extractName(token));
         } else {
             System.out.println("Pas de header Authorization ou format incorrect");
         }

@@ -1,4 +1,4 @@
-package com.example.todolists.service;
+package com.example.todolists.security;
 
 import com.auth0.jwk.Jwk;
 import com.auth0.jwk.JwkProvider;
@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.Map;
 
 @Service
-public class JwtService {
+public class JwtUtils {
 
     @Value("${supabase.url}/auth/v1")
     private String supabaseUrl;

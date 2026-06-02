@@ -1,4 +1,4 @@
-package com.example.todolists.model;
+package com.example.todolists.domain.todo.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name = "todo")
-public class ToDoModel {
+public class ToDo {
     @Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -43,11 +43,11 @@ public class ToDoModel {
     @Column(name="user_id")
     private UUID userId;
 
-    public ToDoModel(UUID userId) {
+    public ToDo(UUID userId) {
         this.userId = userId;
     }
 
-    public ToDoModel() {
+    public ToDo() {
 
     }
 

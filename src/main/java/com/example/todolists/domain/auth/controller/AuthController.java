@@ -1,9 +1,9 @@
-package com.example.todolists.controller;
+package com.example.todolists.domain.auth.controller;
 
-import com.example.todolists.dto.SignInDto;
-import com.example.todolists.dto.SignupDto;
-import com.example.todolists.service.AuthService;
-import com.example.todolists.service.JwtService;
+import com.example.todolists.domain.auth.dto.SignInDto;
+import com.example.todolists.domain.auth.dto.SignupDto;
+import com.example.todolists.domain.auth.service.AuthService;
+import com.example.todolists.security.JwtUtils;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +14,11 @@ import java.util.Map;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-    private final JwtService jwtService;
+    private final JwtUtils jwtUtils;
     private final AuthService authService;
 
-    public AuthController(JwtService jwtService, AuthService authService) {
-        this.jwtService = jwtService;
+    public AuthController(JwtUtils jwtUtils, AuthService authService) {
+        this.jwtUtils = jwtUtils;
         this.authService = authService;
     }
 
@@ -31,10 +31,10 @@ public class AuthController {
         try {
             String token = authHeader.substring(7); // Remove "Bearer "
 
-            if (jwtService.validateToken(token)) {
-                String role = jwtService.extractRole(token);
-                String userId = jwtService.extractUserId(token);
-                String userName = jwtService.extractName(token);
+            if (jwtUtils.validateToken(token)) {
+                String role = jwtUtils.extractRole(token);
+                String userId = jwtUtils.extractUserId(token);
+                String userName = jwtUtils.extractName(token);
 
                 Map<String, Object> response = new HashMap<>();
                 response.put("valid", true);

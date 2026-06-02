@@ -1,4 +1,4 @@
-package com.example.todolists;
+package com.example.todolists.domain.common;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 

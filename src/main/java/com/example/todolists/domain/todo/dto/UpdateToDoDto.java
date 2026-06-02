@@ -1,7 +1,6 @@
-package com.example.todolists.dto;
+package com.example.todolists.domain.todo.dto;
 
-import com.example.todolists.ToDoStatus;
-import jakarta.validation.constraints.NotBlank;
+import com.example.todolists.domain.common.ToDoStatus;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;

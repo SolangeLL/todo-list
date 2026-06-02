@@ -1,4 +1,4 @@
-package com.example.todolists.component;
+package com.example.todolists.security;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Component
-public class AuthUtils {
+public class UserDetails {
     public Map<String, String> getCurrentUser() {
         return (Map<String, String>) SecurityContextHolder
                 .getContext()

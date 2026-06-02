@@ -1,4 +1,4 @@
-package com.example.todolists.dto;
+package com.example.todolists.domain.auth.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
