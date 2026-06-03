@@ -16,9 +16,11 @@ import java.util.UUID;
 @Service
 public class ToDoServiceImpl implements ToDoService {
     private final ToDoRepository toDoRepository;
+    private final UserDetails userDetails;
 
-    public ToDoServiceImpl(ToDoRepository toDoRepository) {
+    public ToDoServiceImpl(ToDoRepository toDoRepository, UserDetails userDetails) {
         this.toDoRepository = toDoRepository;
+        this.userDetails = userDetails;
     }
 
     public List<ToDoResponse> findAll() {
@@ -39,7 +41,6 @@ public class ToDoServiceImpl implements ToDoService {
     }
 
     public ToDoResponse createToDo(CreateToDoDto dto) {
-        UserDetails userDetails = new UserDetails();
         ToDo toDo = new ToDo(userDetails.getCurrentUserId());
         toDo.setTitle(dto.getTitle());
         toDo.setDescription(dto.getDescription());
@@ -62,13 +63,11 @@ public class ToDoServiceImpl implements ToDoService {
     }
 
     public List<ToDoResponse> findByCurrentUserId() {
-        UserDetails userDetails = new UserDetails();
         UUID currentUserId = userDetails.getCurrentUserId();
         return findByUserId(currentUserId);
     }
 
     public void deleteToDoById(UUID id) {
-        UserDetails userDetails = new UserDetails();
         ToDoResponse toDoResponse = findById(id);
         boolean isSameUserId = userDetails.getCurrentUserId().equals(toDoResponse.getUserId());
         if (!isSameUserId)
