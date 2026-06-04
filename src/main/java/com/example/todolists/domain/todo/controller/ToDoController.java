@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/todos")
-class ToDoController {
+public class ToDoController {
     private final ToDoService toDoService;
 
     ToDoController(ToDoService toDoService) {

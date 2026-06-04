@@ -1,4 +1,4 @@
-package com.example.todolists.service;
+package com.example.todolists.todo.service;
 
 import com.example.todolists.domain.common.ToDoStatus;
 import com.example.todolists.domain.todo.dto.CreateToDoDto;

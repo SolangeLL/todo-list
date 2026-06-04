@@ -1,4 +1,4 @@
-package com.example.todolists.repository;
+package com.example.todolists.todo.repository;
 
 import com.example.todolists.domain.todo.entity.ToDo;
 import com.example.todolists.domain.todo.repository.ToDoRepository;
