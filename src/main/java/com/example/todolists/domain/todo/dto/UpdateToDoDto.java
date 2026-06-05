@@ -1,10 +1,7 @@
 package com.example.todolists.domain.todo.dto;
 
 import com.example.todolists.domain.common.ToDoStatus;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -12,6 +9,7 @@ import java.util.Optional;
 
 @Builder
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateToDoDto {

@@ -1,15 +1,13 @@
 package com.example.todolists.domain.todo.dto;
 
 import com.example.todolists.domain.todo.entity.ToDo;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 import java.util.UUID;
 
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
