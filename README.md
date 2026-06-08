@@ -86,9 +86,7 @@ Authorization: Bearer <your-token>
 
 ## 📖 API Documentation (Swagger)
 
-> 🚧 Coming soon
-
-Interactive Swagger documentation will be available.
+Interactive Swagger documentation will is available [here](http://localhost:8080/swagger-ui/index.html).
 
 ---
 

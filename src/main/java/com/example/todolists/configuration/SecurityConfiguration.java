@@ -44,7 +44,9 @@ public class SecurityConfiguration {
                         // Public endpoints (no authentication required)
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/health").permitAll()
-
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**").permitAll()
+                        
                         // Admin endpoints
                         .requestMatchers("/admin/**").hasRole("ADMIN")
 

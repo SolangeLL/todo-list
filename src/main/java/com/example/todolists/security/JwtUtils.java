@@ -35,9 +35,12 @@ public class JwtUtils {
             Jwk jwk = jwkProvider.get(jwt.getKeyId());
             ECPublicKey publicKey = (ECPublicKey) jwk.getPublicKey();
             Algorithm algorithm = Algorithm.ECDSA256(publicKey, null);
-            return JWT.require(algorithm).build().verify(token);
+            return JWT.require(algorithm)
+                    .acceptLeeway(120)
+                    .build()
+                    .verify(token);
         } catch (Exception e) {
-            throw new RuntimeException("Token invalide : " + e.getMessage());
+            throw new RuntimeException("Invalid token: " + e.getMessage());
         }
     }
 
@@ -61,22 +64,5 @@ public class JwtUtils {
 
     public String extractUserId(String token) {
         return decodeAndVerify(token).getSubject();
-    }
-
-    public Date extractExpiration(String token) {
-        return Date.from(decodeAndVerify(token).getExpiresAtAsInstant());
-    }
-
-    private Boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
-
-    public Boolean validateToken(String token) {
-        try {
-            return !isTokenExpired(token);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 }

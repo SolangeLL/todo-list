@@ -16,6 +16,6 @@ public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
     public void commence(@NonNull HttpServletRequest request, HttpServletResponse response, @NonNull AuthenticationException authException) throws IOException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json");
-        response.getWriter().write("{\"error\": \"Non authentifié. Token manquant ou invalide.\"}");
+        response.getWriter().write("{\"error\": \"Not authenticated. Missing or invalid token.\"}");
     }
 }

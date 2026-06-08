@@ -16,6 +16,6 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(@NonNull HttpServletRequest request, HttpServletResponse response, @NonNull AccessDeniedException accessDeniedException) throws IOException {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.setContentType("application/json");
-        response.getWriter().write("{\"error\": \"Accès refusé. Vous n'avez pas les droits nécessaires.\"}");
+        response.getWriter().write("{\"error\": \"Access denied. You do not have the required rights.\"}");
     }
 }

@@ -35,19 +35,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             data.put("userId", jwtUtils.extractUserId(token));
             data.put("userName", jwtUtils.extractName(token));
         } else {
-            System.out.println("Pas de header Authorization ou format incorrect");
+            System.out.println("No Authorization header or incorrect format.");
         }
         return data;
     }
 
     private void assertTokenDataAreValid(Map<String, String> data) throws Exception {
         if (data.get("userId") == null || data.get("userName") == null || data.get("userRole") == null)
-            throw new Exception("Token data incomplètes");
+            throw new Exception("Some token data are missing.");
     }
 
     private void assertAuthenticationIsEmpty() throws Exception {
         if (SecurityContextHolder.getContext().getAuthentication() != null)
-            throw new Exception("Déjà authentifié");
+            throw new Exception("Already authenticated.");
     }
 
     private void setAuthentication(Map<String, String> data) {
@@ -66,7 +66,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             assertAuthenticationIsEmpty();
             setAuthentication(data);
         } catch (Exception e) {
-            System.out.println("Erreur JWT: " + e.getMessage());
+            System.out.println("JWT error: " + e.getMessage());
             filterChain.doFilter(request, response);
             return;
         }
