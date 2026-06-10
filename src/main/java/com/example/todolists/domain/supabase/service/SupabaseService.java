@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class SupabaseService {
@@ -43,6 +45,17 @@ public class SupabaseService {
         }
     }
 
+    private <T> ResponseEntity<T> put(String path, Object body, HttpHeaders headers, Class<T> responseType) {
+        try {
+            HttpEntity<?> entity = new HttpEntity<>(body, headers);
+            return restTemplate.exchange(supabaseUrl + path, HttpMethod.PUT, entity, responseType);
+        } catch (HttpClientErrorException e) {
+            return ResponseEntity.status(e.getStatusCode()).body((T) e.getResponseBodyAs(Object.class));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body((T) Map.of("message", e.getMessage()));
+        }
+    }
+
     private HttpHeaders buildHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -71,5 +84,20 @@ public class SupabaseService {
         HttpHeaders headers = buildHeaders();
         headers.set("Authorization", "Bearer " + token);
         return get("/auth/v1/user", headers, SupabaseUserResponse.class);
+    }
+
+    public ResponseEntity<SupabaseUserResponse> updateCurrentUser(
+            String token,
+            Optional<String> email,
+            Optional<String> name
+    ) {
+        HttpHeaders headers = buildHeaders();
+        headers.set("Authorization", "Bearer " + token);
+
+        Map<String, Object> body = new HashMap<>();
+        email.ifPresent(e -> body.put("email", e));
+        name.ifPresent(n -> body.put("data", Map.of("name", n)));
+
+        return put("/auth/v1/user", body, headers, SupabaseUserResponse.class);
     }
 }

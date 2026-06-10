@@ -2,6 +2,7 @@ package com.example.todolists.domain.user.service;
 
 import com.example.todolists.domain.supabase.dto.SupabaseUserResponse;
 import com.example.todolists.domain.supabase.service.SupabaseService;
+import com.example.todolists.domain.user.dto.UpdateUserDto;
 import com.example.todolists.domain.user.dto.UserResponse;
 import com.example.todolists.security.UserDetails;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,26 @@ public class UserServiceImpl implements UserService {
         SupabaseUserResponse user = supabaseUserResponse.getBody();
 
         assert user != null;
+
+        return UserResponse.builder()
+                .email(user.getEmail())
+                .name(user.getMetadata().getName())
+                .role(user.getMetadata().getRole())
+                .build();
+    }
+
+    @Override
+    public UserResponse updateCurrentUser(UpdateUserDto dto) {
+        String token = userDetails.getToken();
+        ResponseEntity<SupabaseUserResponse> supabaseUserResponse = supabaseService.updateCurrentUser(
+                token,
+                dto.getEmail(),
+                dto.getName()
+        );
+
+        SupabaseUserResponse user = supabaseUserResponse.getBody();
+        assert user != null;
+
         return UserResponse.builder()
                 .email(user.getEmail())
                 .name(user.getMetadata().getName())
