@@ -20,12 +20,15 @@ public class UserDetails {
         return UUID.fromString(idStr);
     }
 
+    public String getToken() {
+        return getCurrentUser().get("token");
+    }
+
     public String getCurrentUserRole() {
         return getCurrentUser().get("userRole");
     }
 
     public String getCurrentUserName() {
         return getCurrentUser().get("userName");
-
     }
 }

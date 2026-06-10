@@ -22,12 +22,12 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@RequestBody @Valid SignInDto dto) {
-        return authService.signin(dto);
+        return authService.signIn(dto);
     }
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody @Valid SignupDto dto) {
-        return authService.signup(dto);
+        return authService.signUp(dto);
     }
 
 }
