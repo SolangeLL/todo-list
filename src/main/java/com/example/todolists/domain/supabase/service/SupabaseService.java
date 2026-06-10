@@ -50,9 +50,9 @@ public class SupabaseService {
             HttpEntity<?> entity = new HttpEntity<>(body, headers);
             return restTemplate.exchange(supabaseUrl + path, HttpMethod.PUT, entity, responseType);
         } catch (HttpClientErrorException e) {
-            return ResponseEntity.status(e.getStatusCode()).body((T) e.getResponseBodyAs(Object.class));
+            throw e;
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body((T) Map.of("message", e.getMessage()));
+            throw new RuntimeException("Internal error while calling Supabase API", e);
         }
     }
 

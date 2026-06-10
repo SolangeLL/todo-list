@@ -1,11 +1,13 @@
 package com.example.todolists.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.RestClientResponseException;
 import tools.jackson.databind.exc.ValueInstantiationException;
 
 import java.util.HashMap;
@@ -42,5 +44,27 @@ class GlobalExceptionHandler {
             return ResponseEntity.badRequest().body(Map.of("error", iae.getMessage()));
         }
         return ResponseEntity.badRequest().body(Map.of("error", "Invalid body"));
+    }
+
+    @ExceptionHandler(RestClientResponseException.class)
+    public ResponseEntity<String> handleHttpClientError(RestClientResponseException ex) {
+        String responseBody = ex.getResponseBodyAsString();
+
+        if (responseBody.isBlank()) {
+            responseBody = "{\"error\": \"" + ex.getStatusText() + "\"}";
+        }
+
+        return ResponseEntity
+                .status(ex.getStatusCode())
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(responseBody);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Map<String, String>> handleRuntimeError(RuntimeException ex) {
+        return ResponseEntity
+                .internalServerError()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Map.of("error", ex.getMessage()));
     }
 }
