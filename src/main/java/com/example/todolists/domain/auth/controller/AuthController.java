@@ -3,13 +3,9 @@ package com.example.todolists.domain.auth.controller;
 import com.example.todolists.domain.auth.dto.SignInDto;
 import com.example.todolists.domain.auth.dto.SignupDto;
 import com.example.todolists.domain.auth.service.AuthService;
-import com.example.todolists.security.JwtUtils;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")

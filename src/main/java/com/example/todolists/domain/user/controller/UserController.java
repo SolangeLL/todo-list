@@ -16,7 +16,7 @@ class UserController {
     }
 
     @GetMapping
-    public UserResponse getCurrentUser() throws NoSuchFieldException {
+    public UserResponse getCurrentUser() {
         return userService.getCurrentUser();
     }
 }
